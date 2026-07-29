@@ -1,14 +1,10 @@
 !function(){
-  // ============================================================
-  // ダンジョン定義
-  // ============================================================
+  "use strict";
   const DUNGEONS = {
     kyoto: {
       name: "無限ダンジョン・京都",
       cycle: ["雪女","貧乏神","天狗","猫又"],
-      // ボス変化の挙動: "replace" = サイクルの次の1コマを差し替え(サイクルは温存)
       changeType: "replace",
-      // 警告色の決め方: "positional" = 天狗相当なら位置(NEXT/NEXT2)で赤/黄が変わる
       warningMode: "positional",
       positionalWarnSet: ["天狗","京都四天王","九尾"],
       interruptRows: [
@@ -23,9 +19,7 @@
     shonan: {
       name: "無限ダンジョン・湘南",
       cycle: ["ゆっくり〜ん","ゆっくりーざ","抜刀斎","雷帝"],
-      // "insert" = サイクルに割り込むだけ(サイクル自体は崩れない)
       changeType: "insert",
-      // "fixed" = ボス名ごとに固定の警告色を持つ(位置に依存しない)
       warningMode: "fixed",
       fixedWarnColors: {
         "抜刀斎":"yellow",
@@ -50,16 +44,13 @@
       item: { name:"幻", key:"maboroshi", color:"pink" }
     }
   };
-
-  // ボス名 → 画像key のマッピング(未掲載名は画像なし=雑多など)
   const IMG_KEY = {
-    // 京都
     "雪女":"yukionna",
     "貧乏神":"binbougami",
     "天狗":"tengu",
     "猫又":"nekomata",
     "九尾":"kyuubi",
-    // 湘南
+    
     "ゆっくり〜ん":"yukkuriin",
     "ゆっくりーざ":"yukkuriiza",
     "抜刀斎":"battousai",
@@ -70,43 +61,29 @@
     "ゆゆゆ":"yuyuyu",
     "ジャンプ":"jump"
   };
-
-  // 四天王枠(2x2表示)のカテゴリ名 → そのダンジョンのサイクルを使う
   const QUAD_USES_CYCLE = new Set(["京都四天王","湘南四天王"]);
-
-  // ============================================================
-  // state
-  // ============================================================
   let currentKey = "kyoto";
   let cycleIndex = 0;
-  let queue = []; // [{name, isChange}]
+  let queue = []; 
   let itemOn = false;
 
   function dungeon(){ return DUNGEONS[currentKey]; }
-
   function nextFromCycle(){
     const d = dungeon();
     const b = d.cycle[cycleIndex % d.cycle.length];
     cycleIndex++;
     return b;
   }
-
   function ensureQueue(){
     while(queue.length < 2){
       queue.push({ name: nextFromCycle(), isChange:false });
     }
   }
-
   function resetState(){
     cycleIndex = 0;
     queue = [];
     itemOn = false;
   }
-
-  // ============================================================
-  // 警告色判定
-  // ============================================================
-  // 戻り値: null | "red" | "yellow" | "purple"
   function warnColorFor(bossName, position /* "next" | "next2" */){
     const d = dungeon();
     if(d.warningMode === "positional"){
@@ -118,10 +95,6 @@
     }
     return null;
   }
-
-  // ============================================================
-  // アイコン描画
-  // ============================================================
   function renderIcon(container, bossName){
     container.innerHTML = "";
     if(QUAD_USES_CYCLE.has(bossName)){
@@ -146,10 +119,6 @@
       container.classList.add('empty');
     }
   }
-
-  // ============================================================
-  // アイテムボタンUI
-  // ============================================================
   function updateItemButtonUI(){
     const d = dungeon();
     const btn = document.getElementById('btnItem');
@@ -159,4 +128,174 @@
     img.src = BOSS_IMAGES[d.item.key];
     label.textContent = "「" + d.item.name + "」入手チャンス：" + (itemOn ? "ON" : "OFF");
     sectionTitle.textContent = "「" + d.item.name + "」フラグ(NEXT対象)";
-    btn.
+    btn.classList.remove('color-green','color-pink');
+    btn.classList.add('color-' + d.item.color);
+    btn.classList.toggle('active', itemOn);
+  }
+
+  function render(){
+    ensureQueue();
+    const d = dungeon();
+    const n1 = queue[0];
+    const n2 = queue[1];
+
+    document.getElementById('stageName').textContent = d.name;
+
+    document.getElementById('nameNext').textContent = n1.name;
+    document.getElementById('nameNext2').textContent = n2.name;
+
+    document.getElementById('originNext').textContent = n1.isChange ? "ランダム変化" : "通常サイクル";
+    document.getElementById('originNext2').textContent = n2.isChange ? "ランダム変化" : "通常サイクル";
+
+    renderIcon(document.getElementById('iconNext'), n1.name);
+    renderIcon(document.getElementById('iconNext2'), n2.name);
+
+    const slotNext = document.getElementById('slotNext');
+    const slotNext2 = document.getElementById('slotNext2');
+    const badgeNext = document.getElementById('badgeNext');
+    const badgeNext2 = document.getElementById('badgeNext2');
+
+    const c1 = warnColorFor(n1.name, "next");
+    const c2 = warnColorFor(n2.name, "next2");
+
+    ['warn-red','warn-yellow','warn-purple'].forEach(function(cls){
+      slotNext.classList.remove(cls);
+      slotNext2.classList.remove(cls);
+    });
+    if(c1){ slotNext.classList.add('warn-' + c1); }
+    if(c2){ slotNext2.classList.add('warn-' + c2); }
+
+    badgeNext.classList.toggle('show', !!c1);
+    badgeNext2.classList.toggle('show', !!c2);
+    badgeNext.textContent = c1 ? "⚠ 警戒" : "";
+    badgeNext2.textContent = c2 ? "⚠ 注意" : "";
+
+    const itemTag = document.getElementById('itemTagNext');
+    const itemTagImg = document.getElementById('itemTagNextImg');
+    itemTagImg.src = BOSS_IMAGES[d.item.key];
+    itemTag.classList.remove('color-green','color-pink');
+    itemTag.classList.add('color-' + d.item.color);
+    itemTag.classList.toggle('on', itemOn);
+    updateItemButtonUI();
+    renderInterruptButtons();
+  }
+  
+  function renderInterruptButtons(){
+    const d = dungeon();
+    const wrap = document.getElementById('interruptWrap');
+    wrap.innerHTML = "";
+    d.interruptRows.forEach(function(row){
+      const grid = document.createElement('div');
+      grid.className = 'change-grid ' + (row.length === 4 ? 'cols-4' : 'cols-3');
+      row.forEach(function(entry){
+        const btn = document.createElement('button');
+        btn.className = 'change-btn' + (entry.accent ? ' accent-' + entry.accent : '');
+        btn.setAttribute('data-change', entry.name);
+        const icon = document.createElement('span');
+        icon.className = 'icon' + (entry.quad ? ' quad' : '');
+        if(entry.quad){
+          dungeon().cycle.forEach(function(name){
+            const img = document.createElement('img');
+            img.src = BOSS_IMAGES[IMG_KEY[name]];
+            img.alt = name;
+            icon.appendChild(img);
+          });
+        }else if(IMG_KEY[entry.name] && BOSS_IMAGES[IMG_KEY[entry.name]]){
+          const img = document.createElement('img');
+          img.src = BOSS_IMAGES[IMG_KEY[entry.name]];
+          img.alt = entry.name;
+          icon.appendChild(img);
+        }
+        btn.appendChild(icon);
+        const textNode = document.createTextNode(entry.label);
+        btn.appendChild(textNode);
+        if(entry.sub){
+          const sub = document.createElement('span');
+          sub.className = 'sub';
+          sub.textContent = entry.sub;
+          btn.appendChild(sub);
+        }
+        btn.addEventListener('click', function(){
+          onChangeBoss(entry.name);
+        });
+
+        grid.appendChild(btn);
+      });
+
+      wrap.appendChild(grid);
+    });
+  }
+  function onChangeBoss(bossName){
+    ensureQueue();
+    const d = dungeon();
+    if(d.changeType === "replace"){
+      queue[0] = { name: bossName, isChange:true };
+    } else if(d.changeType === "insert"){
+      if(queue[0].isChange){
+        queue[0] = { name: bossName, isChange:true };
+      }else{
+        queue.unshift({ name: bossName, isChange:true });
+      }
+    }
+    render();
+  }
+  function renderDungeonOptions(){
+    const dropdown = document.getElementById('stageDropdown');
+    dropdown.innerHTML = "";
+    Object.keys(DUNGEONS).forEach(function(key){
+      const opt = document.createElement('button');
+      opt.className = 'stage-option' + (key === currentKey ? ' current' : '');
+      opt.textContent = DUNGEONS[key].name;
+      opt.addEventListener('click', function(){
+        if(key !== currentKey){
+          currentKey = key;
+          resetState();
+        }
+        closeDropdown();
+        render();
+        renderDungeonOptions();
+      });
+      dropdown.appendChild(opt);
+    });
+  }
+
+  function openDropdown(){
+    document.getElementById('stageDropdown').classList.add('open');
+    document.getElementById('stageSelectBtn').classList.add('open');
+  }
+  function closeDropdown(){
+    document.getElementById('stageDropdown').classList.remove('open');
+    document.getElementById('stageSelectBtn').classList.remove('open');
+  }
+  function toggleDropdown(){
+    const isOpen = document.getElementById('stageDropdown').classList.contains('open');
+    if(isOpen) closeDropdown(); 
+         else  openDropdown(); 
+  }
+  document.getElementById('stageSelectBtn').addEventListener('click', function(e){
+    e.stopPropagation();
+    toggleDropdown();
+  });
+  document.addEventListener('click', function(){
+    closeDropdown();
+  });
+  document.getElementById('stageDropdown').addEventListener('click', function(e){
+    e.stopPropagation();
+  });
+  document.getElementById('btnAdvance').addEventListener('click', function(){
+    queue.shift();
+    itemOn = false; 
+    ensureQueue();
+    render();
+  });
+  document.getElementById('btnItem').addEventListener('click', function(){
+    itemOn = !itemOn;
+    render();
+  });
+  document.getElementById('btnReset').addEventListener('click', function(){
+    resetState();
+    render();
+  });
+  renderDungeonOptions();
+  render();
+}();
