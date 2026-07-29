@@ -1,0 +1,64 @@
+* {
+  --shadow: rgba(0,0,0,.4) 0px 6px 10px 0px,
+    rgba(0,0,0,.4) 0px 0px 0px 1px;
+  --color: #166e67;
+  --gap: 0.5rem;
+  --radius: 5px;
+}
+.btn {
+  color: white;
+  background-color: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: var(--gap);
+  padding: 0.6rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+  border:1.4px solid  var(--line);
+}
+.bx {
+  font-size: 1.1rem;
+}
+.dropdown {
+  position: absolute;
+  width: 250px;
+  height:20rem;
+  overflow:auto;
+  box-shadow: var(--shadow);
+  border:1.4px solid  var(--line);
+  border-radius: var(--radius);
+  margin-top: 0.3rem;
+  background: var(--bg-2);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: all 0.1s cubic-bezier(0.16, 1, 0.5, 1);
+}
+.dropdown a {
+  display: flex;
+  align-items: center;
+  column-gap: var(--gap);
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  color: white;
+}
+.dropdown a:hover {
+  background-color: var(--color);
+  color: white;
+}
+.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0rem);
+}
+.arrow {
+  transform: rotate(180deg);
+  transition: 0.2s ease;
+}
+.Skills {
+  color: white;
+  background-color: var(--bg-2);
+  border-radius: var(--radius);
+  border:1.4px solid  var(--line);
+}
