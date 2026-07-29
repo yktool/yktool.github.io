@@ -57,7 +57,7 @@ for(name in names){
   Element_A.href = `#${name}`;
   Element_A.addEventListener("click",function(){
     dropdownText.textContent = this.textContent;
-    Render(text);
+    Render(this.textContent);
   });
   document.getElementById("dropdown").appendChild(Element_A);
 };
@@ -74,6 +74,6 @@ dropdownBtn.addEventListener("click", function(e){
 document.documentElement.addEventListener("click", function(){
   if (dropdownMenu.classList.contains("show")) toggleDropdown();
 });
-/*document.getElementById("Roll").addEventListener("click",function{
-  if()Render(document.getElementById("dropdownText").textContent)
-})*/
+document.getElementById("Roll").addEventListener("click",function({
+  Render(document.getElementById("dropdownText").textContent)
+});
