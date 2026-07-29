@@ -1,11 +1,11 @@
 !function(){
   document.getElementById("top").addEventListener("click",function(){
-    window.open("https://yktool.github.io/")
+    location.href = "https://yktool.github.io/"
   });
   document.getElementById("tracker").addEventListener("click",function(){
-    window.open("https://yktool.github.io/boss_tracker")
+    location.href ="https://yktool.github.io/boss_tracker"
   });
   document.getElementById("SkillRoll").addEventListener("click",function(){
-    window.open("https://yktool.github.io/Skill_Roll")
+    location.href ="https://yktool.github.io/Skill_Roll"
   });
 }()
