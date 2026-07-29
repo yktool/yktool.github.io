@@ -1,4 +1,3 @@
-import { Render } from "//yktool.github.io/assets/js/Roll.mjs"
 const names = [
   "ゆっくり魔法使い",
   "ゆっくり狩人",
