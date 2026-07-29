@@ -10,6 +10,6 @@
 次のボスを確認できる！(警告付き)  
 脳死で周回したい人向け。  
 ### 仮想厳選
-[仮想厳選](https://yktool.github.io/Skill_Roll) 
+[仮想厳選](https://yktool.github.io/Skill_Roll)   
 ゆっくりを指定してスキルをサイト上で抽選できる!  
 目安を知りたい方向け。  
