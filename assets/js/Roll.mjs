@@ -4,6 +4,6 @@ export function Render(type,locks){
   const results = SkillRoll(SkillMap,type,locks);
   var i = 12;
   while(i--){
-    document.getElementById(`Skill${i}`).textContent = results[i] || "";
+    document.getElementById(`skill${i+1}`).textContent = results[i] || "";
   }
 }
