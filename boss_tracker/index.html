@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>無限ダンジョン - ボス周回トラッカー</title>
+    <link rel="stylesheet" href="//yktool.github.io/assets/css/default.css">
+    <link rel="stylesheet" href="//yktool.github.io/assets/css/tracker.css">
+    <script>
+    const BOSS_IMAGES = {
+      yukionna: "//yktool.github.io/assets/icons/yukionna.png",
+      binbougami: "//yktool.github.io/assets/icons/binnbogami.png",
+      tengu:"//yktool.github.io/assets/icons/tenngu.png",
+      nekomata:"//yktool.github.io/assets/icons/nekomata.png",
+      kyuubi: "//yktool.github.io/assets/icons/kyubi.png",
+      inishie: "//yktool.github.io/assets/icons/ancient.png",
+      yukkuriin : "//yktool.github.io/assets/icons/yukkurin.png",
+      yukkuriiza : "//yktool.github.io/assets/icons/yukkurizza.png",
+      battousai : "//yktool.github.io/assets/icons/battousai.png",
+      raitei : "//yktool.github.io/assets/icons/raitei.png",
+      zetsubou : "//yktool.github.io/assets/icons/zetsubou.png",
+      thiro : "//yktool.github.io/assets/icons/thiro.png",
+      hannnousokudo : "//yktool.github.io/assets/icons/hannousokudo.png",
+      yuyuyu : "//yktool.github.io/assets/icons/yuyuyu.png",
+      jump : "//yktool.github.io/assets/icons/jump.png",
+      maboroshi : "//yktool.github.io/assets/icons/Phantasma.png"
+    };
+    </script>
+  </head>
+  <body>
+   <nav>
+     <ul id="top">
+        <li>トップ</li>
+      </ul>
+      <ul id="tracker">
+        <li class="here">ボストラッカー</li>
+      </ul>
+      <ul id="SkillRoll">
+        <li>仮想厳選</li>
+      </ul>
+    </nav>
+    <div class="contents">
+    <div class="stage-bar">
+      <button class="stage-select-btn" id="stageSelectBtn">
+        <span class="stage-name"><span id="stageName">無限ダンジョン・京都</span><span class="caret">▼</span></span>
+        <span class="stage-sub">BOSS CYCLE</span>
+      </button>
+      <div class="stage-dropdown" id="stageDropdown"></div>
+    </div>
+    <div class="slots">
+      <div class="slot primary" id="slotNext">
+        <div class="slot-label-row">
+          <span class="slot-label">NEXT</span>
+          <span class="item-tag" id="itemTagNext"><img src="" alt="" id="itemTagNextImg"></span>
+        </div>
+        <div class="slot-body">
+          <div class="boss-icon" id="iconNext"></div>
+          <div class="boss-text">
+            <div class="boss-name" id="nameNext">雪女</div>
+            <div class="boss-origin" id="originNext"></div>
+          </div>
+        </div>
+        <div class="warn-badge" id="badgeNext"></div>
+      </div>
+      <div class="slot secondary" id="slotNext2">
+        <div class="slot-label-row">
+          <span class="slot-label">NEXT 2</span>
+        </div>
+        <div class="slot-body">
+          <div class="boss-icon" id="iconNext2"></div>
+          <div class="boss-text">
+            <div class="boss-name" id="nameNext2">貧乏神</div>
+            <div class="boss-origin" id="originNext2"></div>
+          </div>
+        </div>
+        <div class="warn-badge" id="badgeNext2"></div>
+      </div>
+    </div>
+    <button class="next-btn" id="btnAdvance">NEXT ▶ 繰り上げ</button>
+    <div class="section-title">NEXTをボス変化させる</div>
+    <div id="interruptWrap"></div>
+    <div class="section-title" id="itemSectionTitle">アイテムフラグ(NEXT対象)</div>
+    <button class="item-btn" id="btnItem"><img src="" alt="" id="itemBtnImg"><span id="itemBtnLabel"></span></button>
+    <div class="reset-row">
+      <button class="reset-btn" id="btnReset">サイクルを最初からリセット</button>
+    </div>
+    </div>
+    <script src="//yktool.github.io/assets/js/tracker.js"></script>
+    <script src="//yktool.github.io/assets/js/default.js"></script>
+  </body>
+</html>
