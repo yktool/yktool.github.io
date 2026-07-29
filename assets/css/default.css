@@ -1,0 +1,61 @@
+:root{
+  --bg-0:#232323;
+  --bg-1:#181c29;
+  --bg-2:#20263a;
+  --line:#33405c;
+  --ink:#e9ecf5;
+  --ink-dim:#8892ab;
+}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0; padding:0;
+  background:var(--bg-0);
+  color:var(--ink);
+  font-family:'ＭＳ Ｐゴシック', sans-serif;
+  height:100%;
+  overflow-x:hidden;
+  user-select:none;
+}
+
+body{
+  background:
+    radial-gradient(ellipse at top, #1c2133 0%, var(--bg-0) 60%);
+  min-height:100vh;
+}
+
+body {
+  padding:0px;
+  margin:0px;
+}
+nav {
+  margin:0px;
+  display:flex;
+  width:100vw;
+  box-sizing:border-box;
+  border-bottom:2px solid var(--line);
+  margin-bottom:0.7rem;
+  background:#343434;
+}
+nav ul {
+  list-style:none;
+  padding:0;
+  width:100%;
+  text-align:center;
+}
+nav ul:not(:last-child){
+  border-right:2px solid var(--line);
+}
+nav ul li {
+  display:inline;
+  flex:1;
+}
+.contents {
+  padding:14px 14px 28px;
+}
+nav li.here {
+  color:#bcc0cc;
+}
