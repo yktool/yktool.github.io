@@ -1,4 +1,4 @@
-import Render from "/assets/js/Roll.js"
+import { Render } from "//yktool.github.io/assets/js/Roll.js"
 const names = [
   "ゆっくり魔法使い",
   "ゆっくり狩人",
